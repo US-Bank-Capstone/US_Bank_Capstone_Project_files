@@ -8,7 +8,7 @@
    - name: Run Many Commands  
      ios_command: 
        commands: 
-       - show run
+       - show version
 
      register: my_config
 
