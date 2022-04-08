@@ -1,0 +1,19 @@
+--- 
+- name: Running Show Commands
+  hosts: routers
+  gather_facts: false 
+  connection: network_cli 
+ 
+  tasks: 
+   - name: Run Many Commands  
+     ios_command: 
+       commands: 
+       - show run
+
+     register: my_config
+
+   - name: Saving Output
+     copy:
+         content: "{{ my_config.stdout[0] }}"
+         dest: /home/devasc/Desktop/US-Bank/ShowRunOutput/"{{inventory_hostname}}-ShowRun.txt"
+...        
