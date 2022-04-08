@@ -8,7 +8,7 @@
    - name: Run Many Commands  
      ios_command: 
        commands: 
-       - show run
+       - show ip interface breif
 
      register: my_config
 
