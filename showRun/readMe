@@ -1,0 +1,5 @@
+The showRun.yaml script is designed to prompt the user for an IP address (that the user is capable of connecting to via SSH), it then connects to the given IP address
+and issues the show run command. It then saves that show run as a text file in a subdirectory titled 'show-run', using the given IP address as the file name.
+
+The compare.yaml is designed to compare and contrast two text files within the 'show-run' directory, and output any differences between them. The user is prompted to
+enter the file names for both.

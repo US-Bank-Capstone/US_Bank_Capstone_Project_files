@@ -1,0 +1,51 @@
+---
+- hosts: crunch
+  connection: local
+  
+  vars_prompt:
+
+    - name: target_host
+      prompt: Please enter the target IP address
+      private: no
+      
+  tasks:
+    - add_host:
+        name: "{{ target_host }}"
+        groups: dynamically_created_hosts  
+        
+- name: CONFIGURE SWITCH
+  hosts: dynamically_created_hosts
+  gather_facts: false
+  connection: network_cli
+
+  tasks:
+    - name: CONFIGURE VTP
+      ios_config:
+        lines:
+          - vtp domain usbank.com
+          - vtp mode client
+          
+    - name: ENABLE ROUTING
+      ios_config:
+        lines:
+          - ip routing
+          
+    - name: IP DOMAIN
+      ios_config:
+        lines:
+          - no ip domain lookup
+          - ip domain name usbank.com
+          
+    - name: EIGRP
+      ios_config:
+        lines:
+          - network 192.168.99.0 0.0.0.255
+          - redistribute static
+        parents: router eigrp 69
+
+    - name: SHUTDOWN INTERFACES
+      ios_config:
+        lines:
+          - shutdown
+        parents:
+          - interface range G1/0/2-24
