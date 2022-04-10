@@ -7,6 +7,7 @@ R3 ansible_host=192.168.122.30
 ubuntu ansible_host=192.168.122.110
 ubuntu ansible_host=192.168.122.120
 
+
 [routers:vars]
 ansible_network_os=ios
 ansible_user=cisco
