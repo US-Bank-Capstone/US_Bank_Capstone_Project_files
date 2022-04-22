@@ -30,3 +30,50 @@
         lines:
           - network 192.168.99.0 0.0.0.255
         parents: router eigrp 69
+    - name: SHUTDOWN SERIAL INTERFACES
+      ios_config:
+        save_when: modified
+        lines:
+          - shutdown
+        parents: interface range Serial0/1/0-1
+
+    - name: SHUTDOWN GIGABIT INTERFACES
+      ios_config:
+        save_when: modified
+        lines:
+          - shutdown
+        parents: interface GigabitEthernet0/0/2
+
+    - name: AAA NEW MODEL
+      ios_config:
+        lines:
+          - aaa new-model
+        
+    - name: RADIUS MAIN
+      ios_config:
+        lines:
+          - radius-server host 192.168.99.8
+          - radius server MAIN_RADIUS
+          - address ipv4 192.168.99.8
+          - key BANK_MAIN_1
+
+
+    - name: RADIUS BACKUP
+      ios_config:
+        lines:
+          - radius server BACKUP_RADIUS
+          - address ipv4 192.168.99.9
+          - key BANK_BACKUP_2
+
+    - name: AAA MODEL
+      ios_config:
+        lines:
+          - aaa group server radius US_BANK_CAP
+          - server name MAIN_RADIUS
+          - server name BANK_BACKUP_2
+          - aaa authentication login default group US_BANK_CAP local
+
+    - name: CREATING USER
+      ios_config:
+        lines:
+         - username CreatedAdmin secret BANKCAPSTONE
